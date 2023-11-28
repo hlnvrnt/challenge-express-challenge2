@@ -32,9 +32,42 @@ const getUsersById = (req, res) => {
       });
   };
 
+  
+const postUsers = (req, res) => {
+  const { firstname, lastname, email, city, language } = req.body;
+
+  database
+  .query(
+    "INSERT INTO users(firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?)",
+    [firstname, lastname, email, city, language])
+  .then(([results])=>{
+    // if (movies[0]!=null) {
+    //   res.json(movies[0])
+    // } else {
+    //   res.sendStatus(404);
+    // }
+    const newUser = {
+      id :results.insertId, 
+      firstname,
+      lastname,
+      email,
+      city,
+      language
+    }
+    console.log(results)
+    res.sendStatus(201).send(newUser)
+  })
+  .catch((err)=>{
+    console.error(err);
+    res.sendStatus(500)
+  });
+
+};
+
 
 
 module.exports = {
     getUsers,
     getUsersById,
+    postUsers,
   };
