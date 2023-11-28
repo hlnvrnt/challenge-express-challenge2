@@ -84,9 +84,34 @@ const postMovies = (req, res) => {
 };
 
 
+const updateMovie = (req, res) => {
+  const id = parseInt(req.params.id)
+  const { title, director, year, color, duration } = req.body;
+
+  database
+  .query(
+    "UPDATE movies SET title = ?, director = ?, year = ?, color = ?, duration = ? where id = ?",
+    [title, director, year, color, duration, id]
+    )
+  .then(([result])=>{
+    if(result.affectedRows === 0){
+     res.sendStatus(404) 
+    }else{
+      res.sendStatus(204)
+    }
+  })
+  .catch((e) => {
+    console.log(e);
+    res.status(500).send("Internal server error");
+  });
+
+};
+
+
 
 module.exports = {
   getMovies,
   getMovieById,
   postMovies,
+  updateMovie,
 };
