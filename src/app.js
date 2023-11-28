@@ -15,6 +15,10 @@ app.post("/api/movies", validateMovie, movieControllers.postMovies);
 
 app.put("/api/movies/:id", movieControllers.updateMovie);
 
+app.delete("/api/movies/:id", movieControllers.deleteMovie);
+
+
+
 const usersControllers = require("./controllers/usersControllers");
 
 app.get("/api/users", usersControllers.getUsers);
@@ -25,6 +29,8 @@ const validateUser = require("./middlewares/validateUser");
 app.post("/api/users", validateUser, usersControllers.postUsers);
 
 app.put("/api/users/:id", usersControllers.updateUser);
+
+app.delete("/api/users/:id", usersControllers.deleteUser);
 
 module.exports = app;
 
