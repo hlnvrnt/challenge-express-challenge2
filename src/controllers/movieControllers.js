@@ -33,9 +33,9 @@ const getMovies = (req, res) => {
     .then(([movies]) => {
       res.json(movies); // use res.json instead of console.log
     })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
+    .catch((e) => {
+      console.log(e);
+      res.status(500).send("Internal server error");
     });
 };
 
@@ -51,9 +51,9 @@ const getMovieById = (req, res) => {
         res.sendStatus(404);
       }
     })
-    .catch((err)=>{
-      console.error(err);
-      res.sendStatus(500)
+    .catch((e) => {
+      console.log(e);
+      res.status(500).send("Internal server error");
     });
 };
 
@@ -64,31 +64,24 @@ const postMovies = (req, res) => {
   .query(
     "INSERT INTO movies(title, director, year, color, duration) VALUES (?, ?, ?, ?, ?)",
     [title, director, year, color, duration])
-  .then(([results])=>{
-    // if (movies[0]!=null) {
-    //   res.json(movies[0])
-    // } else {
-    //   res.sendStatus(404);
-    // }
+  .then(([result])=>{
     const newMovie = {
-      id :results.insertId, 
+      id :result.insertId, 
       title,
       director,
       year,
       color,
       duration
     }
-    console.log(results)
-    res.sendStatus(201).send(newMovie)
+    console.log(result)
+    res.status(201).send(newMovie)
   })
-  .catch((err)=>{
-    console.error(err);
-    res.sendStatus(500)
+  .catch((e) => {
+    console.log(e);
+    res.status(500).send("Internal server error");
   });
 
 };
-
-
 
 
 
