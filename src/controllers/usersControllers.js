@@ -7,9 +7,9 @@ const getUsers = (req, res) => {
       .then(([users]) => {
         res.json(users); // use res.json instead of console.log
       })
-      .catch((err) => {
-        console.error(err);
-        res.sendStatus(500);
+      .catch((e) => {
+        console.log(e);
+        res.status(500).send("Internal server error");
       });
   };
 
@@ -26,9 +26,9 @@ const getUsersById = (req, res) => {
           res.sendStatus(404);
         }
       })
-      .catch((err)=>{
-        console.error(err);
-        res.sendStatus(500)
+      .catch((e) => {
+        console.log(e);
+        res.status(500).send("Internal server error");
       });
   };
 
@@ -41,11 +41,6 @@ const postUsers = (req, res) => {
     "INSERT INTO users(firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?)",
     [firstname, lastname, email, city, language])
   .then(([results])=>{
-    // if (movies[0]!=null) {
-    //   res.json(movies[0])
-    // } else {
-    //   res.sendStatus(404);
-    // }
     const newUser = {
       id :results.insertId, 
       firstname,
@@ -55,11 +50,11 @@ const postUsers = (req, res) => {
       language
     }
     console.log(results)
-    res.sendStatus(201).send(newUser)
+    res.status(201).send(newUser)
   })
-  .catch((err)=>{
-    console.error(err);
-    res.sendStatus(500)
+  .catch((e) => {
+    console.log(e);
+    res.status(500).send("Internal server error");
   });
 
 };
