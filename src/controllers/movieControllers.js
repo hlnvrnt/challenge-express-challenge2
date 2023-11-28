@@ -57,8 +57,43 @@ const getMovieById = (req, res) => {
     });
 };
 
+const postMovies = (req, res) => {
+  const { title, director, year, color, duration } = req.body;
+
+  database
+  .query(
+    "INSERT INTO movies(title, director, year, color, duration) VALUES (?, ?, ?, ?, ?)",
+    [title, director, year, color, duration])
+  .then(([results])=>{
+    // if (movies[0]!=null) {
+    //   res.json(movies[0])
+    // } else {
+    //   res.sendStatus(404);
+    // }
+    const newMovie = {
+      id :results.insertId, 
+      title,
+      director,
+      year,
+      color,
+      duration
+    }
+    console.log(results)
+    res.sendStatus(201).send(newMovie)
+  })
+  .catch((err)=>{
+    console.error(err);
+    res.sendStatus(500)
+  });
+
+};
+
+
+
+
 
 module.exports = {
   getMovies,
   getMovieById,
+  postMovies,
 };
